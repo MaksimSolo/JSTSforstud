@@ -41,20 +41,22 @@ export function addMoneyToBudget(building: GovBuildType, addMoney: number) {
     building.budget = building.budget + addMoney
 }
 
-/*export const demolishHouses = (houses: Array<HouseType>, street: string) => {
-    houses.filter(h => h.address.street.title !== street)
-}*/
+export const demolishHouses = (city: CityType, street: string) => {
+    city.houses = city.houses.filter(h => h.address.street.title !== street)
+}
 
-export const repairHouse = (house: HouseType)=>{
+export const repairHouse = (house: HouseType) => {
     house.repaired = true;
 }
 
-export function toFireStaff(building: GovBuildType, staff: number){
-    building.staffCount -=staff
+export function toFireStaff(building: GovBuildType, staff: number) {
+    building.staffCount -= staff
 }
-export function toHireStaff(building: GovBuildType, staff: number){
-    building.staffCount +=staff
+
+export function toHireStaff(building: GovBuildType, staff: number) {
+    building.staffCount += staff
 }
+
 export function createMessage(city: CityType) {
     return (`Hello ${city.title} citizens! I want you be Happy! All ${city.citizensNum} men.`)
 }

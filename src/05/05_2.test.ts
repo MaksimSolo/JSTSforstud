@@ -1,6 +1,5 @@
 import {CityType} from "../02/02_2";
-import {addMoneyToBudget, createMessage, demolishHouses, repairHouse, toFireStaff, toHireStaff} from "./03";
-
+import {createMess, getStreetsTitle} from "./05_2";
 
 
 let city: CityType;
@@ -69,53 +68,35 @@ beforeEach(() => {
     }
 })
 
-//1-создать ф-цию в отдельном файлеб чтобы тесты прошли
+test('list of title of streets with gov buildings', () => {
 
-test('Budget should be changed for Hospital', () => {
-    addMoneyToBudget(city.govBuilds[0], 100000);
-    addMoneyToBudget(city.govBuilds[1], -100000);
+    let streets = getStreetsTitle(city.govBuilds)
 
-    expect(city.govBuilds[0].budget).toBe(300000)
-    expect(city.govBuilds[1].budget).toBe(400000)
+    expect(streets.length).toBe(2)
+    expect(streets[0]).toBe('Central Str')
+    expect(streets[1]).toBe('South Str')
+
 })
 
-//1-дополните тип Housetype (добавьте id от 1 и по возрастанию)
-//2- создайте в том же файле еще одну функцию, чтобы тесты прошли
+test('create greeting messages for street citizens', () => {
 
-test('Houses should be destroyed', () => {
-    demolishHouses(city, 'Happy street');
+    let messages = createMess(city.houses)
 
-    expect(city.houses.length).toBe(1)
-    expect(city.houses[0].id).toBe(1)
+    expect(messages.length).toBe(3)
+    expect(messages[0]).toBe('Hello guys from White street')
+    expect(messages[1]).toBe('Hello guys from Happy street')
+    expect(messages[2]).toBe('Hello guys from Happy street')
+
 })
 
-test('House should be repaired', () => {
-    repairHouse(city.houses[1])
 
-    expect(city.houses[1].repaired).toBeTruthy()
-})
 
-test('Firestaff should be increased', () => {
 
-    toFireStaff(city.govBuilds[0], 20)
 
-    expect(city.govBuilds[0].staffCount).toBe(180)
-})
 
-test('Hospital staff should be increased', () => {
 
-    toHireStaff(city.govBuilds[0], 20)
-    toHireStaff(city.govBuilds[1], -100)
 
-    expect(city.govBuilds[0].staffCount).toBe(220)
-    expect(city.govBuilds[1].staffCount).toBe(900)
-})
 
-test('Greeting should be correct', ()=>{
-    const message = createMessage(city);
-
-    expect(message).toBe('Hello New York citizens! I want you be Happy! All 1000000 men.')
-})
 
 
 
