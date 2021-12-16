@@ -5,6 +5,5 @@ export function getStreetsTitle(builds: Array<GovBuildType>) {
 }
 
 export const createMess = (h: Array<HouseType>) => {
-    return h.map(el => `Hello guys from ${el.address.street.title}`
-    )
+    return h.map(el => `Hello guys from ${el.address.street.title}`)
 }
