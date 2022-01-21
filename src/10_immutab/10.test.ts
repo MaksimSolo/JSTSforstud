@@ -1,114 +1,124 @@
-test('some reference type test', () => {
-    const user = {
-        name: 'Maksim',
-        age: 38
+import {
+    addBookToUser,
+    moveUser,
+    moveUser2,
+    updateBookToUser,
+    upgradeUser,
+    UserType,
+    UserWithBooksType,
+    UserWithLaptopType
+} from "./10";
+
+let makeHairStyle = (u: UserType, power: number) => {
+    const copy = {
+        ...u,
+        hair: u.hair / power
     }
-
-    let increaseAge = function (user: {
-        name: string,
-        age: number
-    }) {
-        user.age++;
-    }
-
-    increaseAge(user)
-
-    expect(user.age).toBe(39)
-
-    const superman = user
-    superman.age = 1000
-
-    expect(user.age).toBe(1000)
-})
-
-test('array reference test', () => {
-    const users = [
-        {
-            name: 'Maks',
-            age: 38
-        },
-        {
-            name: 'Anna',
-            age: 34
-        }
-    ]
-
-    const admins = users
-    admins.push({name: 'Bandygan', age: 10});
-
-    expect(users[2]).toEqual({name: 'Bandygan', age: 10})
-})
-
-test('value type test', () => {
-    const usersCount = 100;
-    let adminsCount = usersCount;
-    adminsCount = adminsCount + 1;
-
-
-    expect(usersCount).toBe(100)
-
-})
-
-test('object reference type test', () => {
-    const user = {
-        name: 'Maksim',
-        age: 38,
-        address: {
-            title: 'Bryansk'
-        }
-    }
-    //let addr = user.address
-
-    const user2 = {
-        name: 'Anna',
-        age: 34,
-        address: user.address
-    }
-
-    user2.address.title = 'Kanary'
-
-    expect(user.address.title).toBe('Kanary')
-
-
-})
-
-test('array reference type test', () => {
-    const address = {
-        title: "Bryansk"
-    }
-
-    const user = {
-        name: 'Maksim',
-        age: 38,
-        address: address
-    }
-    const user2 = {
-        name: 'Anna',
-        age: 34,
-        address: address
-    }
-
-    const users = [
-        user, user2, {name: 'Kamilla', age: 4, address: address}
-    ]
-
-    const admins= [user,user2]
-
-    admins[0].name = 'Maksimus'
-
-    expect(users[0].name).toBe('Maksimus')
-    expect(user.name).toBe('Maksimus')
-
-})
-
-function pasportist(letters:Array<string>) {
-    letters.sort();
-    console.log(letters)
+    // copy.hair = u.hair / power
+    return copy
 }
-test('sort array test',()=>{
-    const letters = ['c','d','a','z','e']
 
-    pasportist(letters)
 
-    expect(letters).toEqual(['a','c','d','e','z'])
+test('some reference type test', () => {
+    let user = {
+        name: 'Maksim',
+        hair: 1000,
+        address: {title: 'Bryansk'}
+    }
+
+    const cutUser = makeHairStyle(user, 2)
+
+    user.address.title = 'kiiv'
+
+
+    expect(user.hair).toBe(1000)
+    expect(cutUser.hair).toBe(500)
+    expect(cutUser.address === user.address).toBe(true)
+    expect(cutUser.address.title).toBe('kiiv')
 })
+
+test('change address, move user', () => {
+    let user = {
+        name: 'Maksim',
+        hair: 1000,
+        address: {title: 'Bryansk'}
+    }
+
+    let movedUser = moveUser(user, 'kiiv')
+
+    expect(user.address.title).toBe('Bryansk')
+    expect(movedUser.address.title).toBe('kiiv')
+
+})
+
+test('user with laptop', () => {
+        let user: UserWithLaptopType = {
+            name: 'Maksim',
+            hair: 1000,
+            address: {title: 'Bryansk'},
+            laptop: {title: 'zenbook'}
+        }
+
+        let movedUser = moveUser2(user, 'kiiv')
+
+        expect(user.address.title).toBe('Bryansk')
+        expect(movedUser.address.title).toBe('kiiv')
+        expect(movedUser.address).not.toBe(user.address)
+        expect(movedUser.laptop).toBe(user.laptop)
+    }
+)
+
+test('upgrade laptop to macbook', () => {
+        let user: UserWithLaptopType = {
+            name: 'Maksim',
+            hair: 1000,
+            address: {title: 'Bryansk'},
+            laptop: {title: 'zenbook'}
+        }
+
+        let upgradedUser = upgradeUser(user, 'macbook')
+
+        expect(user.laptop.title).toBe('zenbook')
+        expect(upgradedUser.laptop.title).toBe('macbook')
+        expect(upgradedUser.laptop).not.toBe(user.laptop)
+        expect(user.address).toBe(upgradedUser.address)
+    }
+)
+
+test('add new books', () => {
+        let user: UserWithBooksType = {
+            name: 'Maksim',
+            hair: 1000,
+            address: {title: 'Bryansk'},
+            laptop: {title: 'zenbook'},
+            books: ['react', 'html', 'css', 'redux']
+        }
+
+        let addedBookUser = addBookToUser(user, 'History of USSR')
+
+        expect(user.books.length).not.toBe(addedBookUser.books.length)
+        expect(addedBookUser.books.length).toBe(5)
+        expect(addedBookUser.books[4]).toBe('History of USSR')
+        expect(addedBookUser.books.length).toBe(5)
+        expect(addedBookUser.books).not.toBe(user.books)
+    }
+)
+
+test('update user books', () => {
+        let user: UserWithBooksType = {
+            name: 'Maksim',
+            hair: 1000,
+            address: {title: 'Bryansk'},
+            laptop: {title: 'zenbook'},
+            books: ['react', 'html', 'css', 'redux']
+        }
+
+        let updatedBookUser = updateBookToUser(user, 'History of USSR')
+
+        expect(updatedBookUser.books.length).toBe(user.books.length)
+        expect(updatedBookUser.books[3]).toBe('History of USSR')
+        expect(user.books[3]).toBe('redux')
+    }
+)
+
+
