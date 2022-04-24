@@ -1,4 +1,11 @@
 import React, {ChangeEvent, MouseEvent} from "react";
+import  '../11Promises/11Promises'
+import  '../11Promises/11Promises-1'
+import  '../11Promises/11Promises-2'
+import  '../11Promises/11Promises-3'
+import  '../11Promises/11Promises-4'
+import  '../11Promises/11Promises-5'
+import  '../11Promises/11Promises-6'
 
 const callback = () => {
     // alert('Hey!')
@@ -8,7 +15,7 @@ const callback = () => {
 window.setTimeout(callback, 1000)
 
 
-export const User = () => {
+ function User ()  {
 
     const deleteUser = (event: MouseEvent<HTMLDivElement>) => {
         console.log(event.currentTarget.title)
@@ -35,10 +42,12 @@ export const User = () => {
 
     return (
         <div>
-            <textarea tabIndex={0} onBlur={onBlurMessage} onChange={onChangeTxtArea}>Dimych</textarea>
+            <textarea defaultValue={'Dimych'} tabIndex={0} onBlur={onBlurMessage} onChange={onChangeTxtArea}></textarea>
             <input tabIndex={1} onBlur={onBlurMessage} onChange={onChangeInputArea}/>
             <div title='deleteUser' tabIndex={2} onBlur={onBlurMessage} onClick={deleteUser}>delete</div>
             <div tabIndex={3} onBlur={onBlurMessage} onClick={saveUser}>save</div>
         </div>
     )
 }
+
+export default User
